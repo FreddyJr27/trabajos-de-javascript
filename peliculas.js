@@ -1,9 +1,37 @@
-class llamada {
+class Llamada {
+    constructor() {
+        this.usedIds = new Set();
+        this.maxIds = 20; // Número máximo de IDs posibles
+    }
+
+    getRandomId() {
+        if (this.usedIds.size >= this.maxIds) {
+            console.log('Todos los IDs están en uso.');
+            return null; // No se puede obtener un nuevo ID si todos están en uso
+        }
+
+        let numero_r;
+
+        // Generar un número aleatorio que no esté en usedIds
+        do {
+            numero_r = Math.floor(Math.random() * this.maxIds) + 1;
+        } while (this.usedIds.has(numero_r));
+
+        this.usedIds.add(numero_r);
+        return numero_r;
+    }
+
     ruta() {
-        return fetch('https://freetestapi.com/api/v1/movies')
+        const numero_r = this.getRandomId();
+        if (numero_r === null) {
+            console.log('No se pueden generar más IDs. Todos los IDs están en uso.');
+            return; // Salir si no se puede obtener un nuevo ID
+        }
+
+        return fetch('https://freetestapi.com/api/v1/movies/' + numero_r)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                this.agregarFila(data);
                 return data; // Devolver los datos
             })
             .catch(error => {
@@ -12,27 +40,82 @@ class llamada {
             });
     }
 
-    sacarDatos(data) {
-        // Verificar si hay datos antes de iterar
-        if (data && data.length > 0) {
-            let i = 0;
-            const interval = setInterval(() => {
-                if (i < data.length) {
-                    console.log(data[i]); // Operación con cada diccionario
-                    i++;
-                } else {
-                    clearInterval(interval); // Detener el intervalo cuando se hayan mostrado todos los datos
-                }
-            }, 5000); // Intervalo de 5 segundos
-        } else {
-            console.log('No hay datos para mostrar');
-        }
+    agregarFila(data) {
+        const tabla = document.getElementById('tablaPeliculas').getElementsByTagName('tbody')[0];
+        const nuevaFila = tabla.insertRow();
+
+        const celdaId = nuevaFila.insertCell(0);
+        const celdaTitulo = nuevaFila.insertCell(1);
+        const celdaPremio = nuevaFila.insertCell(2);
+    
+        // Insertar contenido en las celdas
+        celdaId.textContent = data.id;
+        celdaTitulo.textContent = data.title;
+        celdaPremio.textContent = data.awards;
+
+        // Añadir la nueva columna para las imágenes
+        const celdaImagenes = nuevaFila.insertCell(3);
+
+        // Crear las imágenes
+        const Ojo = document.createElement('img');
+        Ojo.src = '/ojo.png'; // Reemplaza con la ruta a tu imagen de ojo verde
+        Ojo.alt = 'Ojo';
+        Ojo.style.cursor = 'pointer'; // Cambia el cursor para indicar que es clickeable
+        Ojo.style.width = '20px'; // Ajusta el tamaño de la imagen del ojo verde
+        Ojo.style.height = '20px'; // Ajusta el tamaño de la imagen del ojo verde
+
+        const X = document.createElement('img');
+        X.src = '/xroja.png'; // Reemplaza con la ruta a tu imagen de X roja
+        X.alt = 'X';
+        X.style.cursor = 'pointer'; // Cambia el cursor para indicar que es clickeable
+        X.style.width = '25px'; // Ajusta el tamaño de la imagen de la X roja
+        X.style.height = '15px'; // Ajusta el tamaño de la imagen de la X roja
+
+        // Añadir las imágenes a la celda
+        celdaImagenes.appendChild(Ojo);
+        celdaImagenes.appendChild(X);
+        
+        Ojo.addEventListener('click', () => {
+            // Acciones a realizar cuando se hace clic en la imagen del ojo verde
+            console.log('Imagen del ojo verde clickeada');
+        });
+    
+        X.addEventListener('click', () => {
+            // Acciones a realizar cuando se hace clic en la imagen de la X roja
+            console.log('Imagen de X roja clickeada');
+            // obtener el id de la fila y Eliminar el id de usedIds
+            const idFila = parseInt(celdaId.textContent, 10);
+            this.usedIds.delete(idFila);
+            // Eliminar la fila
+            tabla.removeChild(nuevaFila);
+        });
+
+        // Ordenar la tabla después de añadir la fila
+        this.ordenarTabla();
+    }
+
+    ordenarTabla() {
+        const tabla = document.getElementById('tablaPeliculas').getElementsByTagName('tbody')[0];
+        // Convertir las filas en un array
+        const filas = Array.from(tabla.rows);
+
+        // Ordenar filas basadas en el texto de la segunda celda
+        const filasOrdenadas = filas.sort((a, b) => {
+            const nombreA = a.cells[1].textContent.toLowerCase();
+            const nombreB = b.cells[1].textContent.toLowerCase();
+            return nombreA.localeCompare(nombreB);
+        });
+
+        // Actualizar la tabla con las filas ordenadas
+        tabla.innerHTML = '';
+        filasOrdenadas.forEach(fila => tabla.appendChild(fila));
     }
 }
 
-const miLlamada = new llamada();
-miLlamada.ruta().then(data => {
-    
-    miLlamada.sacarDatos(data);
-// Llamar a sacarDatos con los datos obtenidos
-}); 
+const miLlamada = new Llamada();
+
+function llamarCada5Segundos() {
+    miLlamada.ruta();
+}
+
+setInterval(llamarCada5Segundos, 5000); 
