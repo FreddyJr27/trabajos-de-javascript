@@ -76,14 +76,14 @@ class Llamada {
         celdaImagenes.appendChild(X);
         
         Ojo.addEventListener('click', () => {
-            // Acciones a realizar cuando se hace clic en la imagen del ojo verde
-            console.log('Imagen del ojo verde clickeada');
+            // Mostrar la ventana emergente con la información de la película
+            this.mostrarInformacion(data);
         });
     
         X.addEventListener('click', () => {
             // Acciones a realizar cuando se hace clic en la imagen de la X roja
             console.log('Imagen de X roja clickeada');
-            // obtener el id de la fila y Eliminar el id de usedIds
+            // Obtener el id de la fila y eliminar el id de usedIds
             const idFila = parseInt(celdaId.textContent, 10);
             this.usedIds.delete(idFila);
             // Eliminar la fila
@@ -92,6 +92,34 @@ class Llamada {
 
         // Ordenar la tabla después de añadir la fila
         this.ordenarTabla();
+    }
+
+    mostrarInformacion(data) {
+        const infoVentana = document.getElementById('infoVentana');
+        document.getElementById('infoTitulo').textContent = data.title;
+        document.getElementById('infoAnio').textContent = data.year;
+        document.getElementById('infoGenero').textContent = data.genre.join(', ');
+        document.getElementById('infoRating').textContent = data.rating;
+        document.getElementById('infoDirector').textContent = data.director;
+        document.getElementById('infoActores').textContent = data.actors.join(', ');
+        document.getElementById('infoSinopsis').textContent = data.plot;
+        document.getElementById('infoDuracion').textContent = data.runtime + ' minutos';
+        document.getElementById('infoPremios').textContent = data.awards;
+        document.getElementById('infoPais').textContent = data.country;
+        document.getElementById('infoIdioma').textContent = data.language;
+        document.getElementById('infoTaquilla').textContent = data.boxOffice;
+        document.getElementById('infoProduccion').textContent = data.production;
+        document.getElementById('infoWebsite').href = data.website;
+        document.getElementById('infoWebsite').textContent = data.website;
+        document.getElementById('infoPoster').src = data.poster;
+        document.getElementById('infoTrailer').href = data.trailer;
+
+        infoVentana.style.display = 'block'; // Mostrar la ventana emergente
+    }
+
+    cerrarInformacion() {
+        const infoVentana = document.getElementById('infoVentana');
+        infoVentana.style.display = 'none'; // Ocultar la ventana emergente
     }
 
     ordenarTabla() {
@@ -114,8 +142,14 @@ class Llamada {
 
 const miLlamada = new Llamada();
 
+// Manejador para cerrar la ventana emergente
+document.querySelector('#infoVentana .cerrar').addEventListener('click', () => {
+    miLlamada.cerrarInformacion();
+});
+
 function llamarCada5Segundos() {
     miLlamada.ruta();
 }
 
-setInterval(llamarCada5Segundos, 5000); 
+setInterval(llamarCada5Segundos, 5000);
+

@@ -2,18 +2,66 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Películas</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #tablaPeliculas {
+            width: 70%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 2px solid black
+            
+        }
+        /* Estilos para la ventana emergente */
+        #infoVentana {
+            display: none;
+            /* Oculta la ventana emergente por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Fondo semi-transparente */
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+
+        #infoVentana .contenido {
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #infoVentana .cerrar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff0000; /* Rojo para el botón de cierre */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        #infoVentana .cerrar:hover {
+            background-color: #cc0000; /* Rojo oscuro al pasar el ratón */
+        }
+        #infoVentana h2 {
+            margin-top: 0;
         }
     </style>
-    <title>Document</title>
 </head>
 
 <body>
@@ -23,12 +71,36 @@
                 <th>ID</th>
                 <th>Título</th>
                 <th>Premios</th>
-
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
+            <!-- Filas añadidas dinámicamente aquí -->
         </tbody>
     </table>
+
+    <!-- Contenedor para la ventana emergente con la información de la película -->
+    <div id="infoVentana">
+        <div class="contenido">
+            <span class="cerrar">&times;</span>
+            <h2 id="infoTitulo"></h2>
+            <p><strong>Año:</strong> <span id="infoAnio"></span></p>
+            <p><strong>Género:</strong> <span id="infoGenero"></span></p>
+            <p><strong>Rating:</strong> <span id="infoRating"></span></p>
+            <p><strong>Director:</strong> <span id="infoDirector"></span></p>
+            <p><strong>Actores:</strong> <span id="infoActores"></span></p>
+            <p><strong>Sinopsis:</strong> <span id="infoSinopsis"></span></p>
+            <p><strong>Duración:</strong> <span id="infoDuracion"></span></p>
+            <p><strong>Premios:</strong> <span id="infoPremios"></span></p>
+            <p><strong>País:</strong> <span id="infoPais"></span></p>
+            <p><strong>Idioma:</strong> <span id="infoIdioma"></span></p>
+            <p><strong>Taquilla:</strong> <span id="infoTaquilla"></span></p>
+            <p><strong>Producción:</strong> <span id="infoProduccion"></span></p>
+            <p><strong>Website:</strong> <a id="infoWebsite" href="#" target="_blank"></a></p>
+            <img id="infoPoster" src="" alt="Póster" style="max-width: 100%;">
+            <p><strong>Tráiler:</strong> <a id="infoTrailer" href="#" target="_blank">Ver tráiler</a></p>
+        </div>
+    </div>
 
     <script src="peliculas.js"></script>
 </body>
