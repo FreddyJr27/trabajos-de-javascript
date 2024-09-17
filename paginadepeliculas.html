@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-    
     <title>Películas</title>
     <style>
+        /* Estilos para la tabla */
         #tablaPeliculas {
             width: 70%;
             border-collapse: collapse;
@@ -12,9 +12,37 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            border: 2px solid black
-            
+            border: 2px solid black;
         }
+
+        /* Estilos para el contenedor del buscador */
+        .busqueda {
+            width: 70%;
+            /* Igual que la tabla */
+            margin: 0 auto 20px auto;
+            /* Centra el contenedor y agrega margen inferior */
+            text-align: center;
+            /* Centra el contenido dentro del contenedor */
+        }
+
+        .busqueda input {
+            padding: 10px;
+            font-size: 16px;
+            width: calc(100% - 22px);
+            /* Ajusta el ancho para considerar el padding y los bordes */
+            max-width: 100%;
+            /* Asegura que el campo no se expanda más allá del contenedor */
+        }
+
+        .busqueda button {
+            padding: 10px 20px;
+            font-size: 16px;
+            width: calc(100% - 22px);
+            /* Ajusta el ancho para considerar el padding y los bordes */
+            max-width: 100%;
+            /* Asegura que el botón no se expanda más allá del contenedor */
+        }
+
         /* Estilos para la ventana emergente */
         #infoVentana {
             display: none;
@@ -46,7 +74,8 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background-color: #ff0000; /* Rojo para el botón de cierre */
+            background-color: #ff0000;
+            /* Rojo para el botón de cierre */
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -54,17 +83,30 @@
             cursor: pointer;
             font-size: 16px;
         }
-        
+
         #infoVentana .cerrar:hover {
-            background-color: #cc0000; /* Rojo oscuro al pasar el ratón */
+            background-color: #cc0000;
+            /* Rojo oscuro al pasar el ratón */
         }
+
         #infoVentana h2 {
             margin-top: 0;
+        }
+
+        .fila-seleccionada {
+            background-color: #ffff99;
+            /* Color de fondo amarillo claro para la fila seleccionada */
         }
     </style>
 </head>
 
 <body>
+    <!-- Contenedor para el buscador -->
+    <div class="busqueda">
+        <input type="text" id="buscador" placeholder="Buscar por título...">
+        <button id="buscarBtn">Buscar</button>
+    </div>
+
     <table id="tablaPeliculas" border="1">
         <thead>
             <tr>

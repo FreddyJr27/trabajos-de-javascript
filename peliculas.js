@@ -121,6 +121,22 @@ class Llamada {
         const infoVentana = document.getElementById('infoVentana');
         infoVentana.style.display = 'none'; // Ocultar la ventana emergente
     }
+    buscarPelicula(titulo) {
+        const tabla = document.getElementById('tablaPeliculas').getElementsByTagName('tbody')[0];
+        const filas = Array.from(tabla.rows);
+
+        // Eliminar el resaltado de la fila anterior si existe
+        filas.forEach(fila => fila.classList.remove('fila-seleccionada'));
+
+        const filaEncontrada = filas.find(fila => fila.cells[1].textContent.toLowerCase() === titulo.toLowerCase());
+
+        if (filaEncontrada) {
+            filaEncontrada.classList.add('fila-seleccionada');
+            filaEncontrada.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            alert('No se encontró ninguna película con ese título.');
+        }
+    }
 
     ordenarTabla() {
         const tabla = document.getElementById('tablaPeliculas').getElementsByTagName('tbody')[0];
@@ -145,6 +161,14 @@ const miLlamada = new Llamada();
 // Manejador para cerrar la ventana emergente
 document.querySelector('#infoVentana .cerrar').addEventListener('click', () => {
     miLlamada.cerrarInformacion();
+});
+document.getElementById('buscarBtn').addEventListener('click', () => {
+    const tituloBuscado = document.getElementById('buscador').value.trim();
+    if (tituloBuscado) {
+        miLlamada.buscarPelicula(tituloBuscado);
+    } else {
+        alert('Por favor, ingresa un título para buscar.');
+    }
 });
 
 function llamarCada5Segundos() {
