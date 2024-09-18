@@ -55,36 +55,31 @@ class Llamada {
         celdaTitulo.textContent = data.title;
         celdaPremio.textContent = data.awards;
 
-        // Añadir la nueva columna para las imágenes
-        const celdaImagenes = nuevaFila.insertCell(3);
+        const celdaIconos = nuevaFila.insertCell(3);
 
-        // Crear las imágenes
-        const Ojo = document.createElement('img');
-        Ojo.src = '/ojo.png'; // Reemplaza con la ruta a tu imagen de ojo verde
-        Ojo.alt = 'Ojo';
-        Ojo.style.cursor = 'pointer'; // Cambia el cursor para indicar que es clickeable
-        Ojo.style.width = '20px'; // Ajusta el tamaño de la imagen del ojo verde
-        Ojo.style.height = '20px'; // Ajusta el tamaño de la imagen del ojo verde
+        // Crear los íconos de Font Awesome
+        const ojoIcon = document.createElement('i');
+        ojoIcon.className = 'fa-solid fa-eye';
+        ojoIcon.style.cursor = 'pointer'; // Cambia el cursor para indicar que es clickeable
+        ojoIcon.style.marginRight = '10px'; // Añadir margen a la derecha para separar los iconos
 
-        const X = document.createElement('img');
-        X.src = '/xroja.png'; // Reemplaza con la ruta a tu imagen de X roja
-        X.alt = 'X';
-        X.style.cursor = 'pointer'; // Cambia el cursor para indicar que es clickeable
-        X.style.width = '25px'; // Ajusta el tamaño de la imagen de la X roja
-        X.style.height = '15px'; // Ajusta el tamaño de la imagen de la X roja
+        const xIcon = document.createElement('i');
+        xIcon.className = 'fa-solid fa-trash';
+        xIcon.style.cursor = 'pointer'; // Cambia el cursor para indicar que es clickeable
 
-        // Añadir las imágenes a la celda
-        celdaImagenes.appendChild(Ojo);
-        celdaImagenes.appendChild(X);
+        // Añadir los íconos a la celda
+        celdaIconos.appendChild(ojoIcon);
+        celdaIconos.appendChild(xIcon);
 
-        Ojo.addEventListener('click', () => {
+        ojoIcon.addEventListener('click', () => {
+            console.log('Ícono de ojo clickeado');
             // Mostrar la ventana emergente con la información de la película
             this.mostrarInformacion(data);
         });
 
-        X.addEventListener('click', () => {
-            // Acciones a realizar cuando se hace clic en la imagen de la X roja
-            console.log('Imagen de X roja clickeada');
+        xIcon.addEventListener('click', () => {
+            // Acciones a realizar cuando se hace clic en el ícono de la X roja
+            console.log('Ícono de X roja clickeado');
             // Obtener el id de la fila y eliminar el id de usedIds
             const idFila = parseInt(celdaId.textContent, 10);
             this.usedIds.delete(idFila);
@@ -127,7 +122,6 @@ class Llamada {
 
         infoVentana.style.display = 'block'; // Mostrar la ventana emergente
     }
-
     cerrarInformacion() {
         const infoVentana = document.getElementById('infoVentana');
         infoVentana.style.display = 'none'; // Ocultar la ventana emergente
