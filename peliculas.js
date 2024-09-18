@@ -2,6 +2,7 @@ class Llamada {
     constructor() {
         this.usedIds = new Set();
         this.maxIds = 20; // Número máximo de IDs posibles
+        this.intervalId = null; // Guardar el ID del intervalo
     }
 
     getRandomId() {
@@ -25,6 +26,7 @@ class Llamada {
         const numero_r = this.getRandomId();
         if (numero_r === null) {
             console.log('No se pueden generar más IDs. Todos los IDs están en uso.');
+            clearInterval(this.intervalId); // Detener el intervalo
             return; // Salir si no se puede obtener un nuevo ID
         }
 
@@ -47,7 +49,7 @@ class Llamada {
         const celdaId = nuevaFila.insertCell(0);
         const celdaTitulo = nuevaFila.insertCell(1);
         const celdaPremio = nuevaFila.insertCell(2);
-    
+
         // Insertar contenido en las celdas
         celdaId.textContent = data.id;
         celdaTitulo.textContent = data.title;
@@ -74,12 +76,12 @@ class Llamada {
         // Añadir las imágenes a la celda
         celdaImagenes.appendChild(Ojo);
         celdaImagenes.appendChild(X);
-        
+
         Ojo.addEventListener('click', () => {
             // Mostrar la ventana emergente con la información de la película
             this.mostrarInformacion(data);
         });
-    
+
         X.addEventListener('click', () => {
             // Acciones a realizar cuando se hace clic en la imagen de la X roja
             console.log('Imagen de X roja clickeada');
@@ -95,6 +97,7 @@ class Llamada {
     }
 
     mostrarInformacion(data) {
+        console.log(data);
         const infoVentana = document.getElementById('infoVentana');
         document.getElementById('infoTitulo').textContent = data.title;
         document.getElementById('infoAnio').textContent = data.year;
@@ -111,7 +114,15 @@ class Llamada {
         document.getElementById('infoProduccion').textContent = data.production;
         document.getElementById('infoWebsite').href = data.website;
         document.getElementById('infoWebsite').textContent = data.website;
-        document.getElementById('infoPoster').src = data.poster;
+
+        // Verificar si el póster está disponible
+        if (data.poster) {
+            document.getElementById('infoPoster').src = data.poster;
+            document.getElementById('infoPoster').style.display = 'block'; // Mostrar la imagen si está disponible
+        } else {
+            document.getElementById('infoPoster').style.display = 'none'; // Ocultar la imagen si no está disponible
+        }
+
         document.getElementById('infoTrailer').href = data.trailer;
 
         infoVentana.style.display = 'block'; // Mostrar la ventana emergente
@@ -121,6 +132,7 @@ class Llamada {
         const infoVentana = document.getElementById('infoVentana');
         infoVentana.style.display = 'none'; // Ocultar la ventana emergente
     }
+
     buscarPelicula(titulo) {
         const tabla = document.getElementById('tablaPeliculas').getElementsByTagName('tbody')[0];
         const filas = Array.from(tabla.rows);
@@ -162,6 +174,7 @@ const miLlamada = new Llamada();
 document.querySelector('#infoVentana .cerrar').addEventListener('click', () => {
     miLlamada.cerrarInformacion();
 });
+
 document.getElementById('buscarBtn').addEventListener('click', () => {
     const tituloBuscado = document.getElementById('buscador').value.trim();
     if (tituloBuscado) {
@@ -175,5 +188,5 @@ function llamarCada5Segundos() {
     miLlamada.ruta();
 }
 
-setInterval(llamarCada5Segundos, 5000);
-
+// Guardar el ID del intervalo para poder detenerlo más tarde
+miLlamada.intervalId = setInterval(llamarCada5Segundos, 5000);
