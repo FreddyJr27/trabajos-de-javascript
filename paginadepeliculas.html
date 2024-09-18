@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Películas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -16,7 +20,6 @@
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
         }
-
 
         /* Estilos para la tabla */
         #tablaPeliculas {
@@ -46,13 +49,14 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            padding: 50px;
+            color: white;
         }
 
         #buscarBtn {
             padding: 10px 20px;
             background-color: #029Bcf;
             color: white;
-
         }
 
         input {
@@ -84,7 +88,7 @@
             top: 0%;
             background-color: #f6f9fc;
             color: #8493a5;
-            font-size: 15 px;
+            font-size: 15px;
         }
 
         th,
@@ -93,6 +97,12 @@
             padding: 10px 20px;
             word-break: break-all;
             text-align: center;
+        }
+
+        tr:hover td {
+            background-color: #f6f9fc;
+            color: #029Bcf;
+            cursor: pointer;
         }
 
         /* Estilos para la ventana emergente */
