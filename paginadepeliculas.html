@@ -6,30 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Películas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=SUSE:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
 
         * {
             margin: 0%;
             padding: 0%;
             box-sizing: border-box;
+
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
             overflow: hidden;
+            font-family: "SUSE", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 790;
+            font-style: normal;
         }
 
-        /* Estilos para la tabla */
         #tablaPeliculas {
-            width: 70%;
+            height: 650px;
+            overflow: auto;
+            border: none;
             border-collapse: collapse;
-            margin: 0 auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border: 2px solid black;
         }
 
         .tabla {
@@ -53,10 +53,17 @@
             color: white;
         }
 
+
+
         #buscarBtn {
             padding: 10px 20px;
             background-color: #029Bcf;
-            color: white;
+            color: rgb(255, 255, 255);
+        }
+
+        #buscarBtn:hover {
+            background-color: #58f1b7;
+            color: #000;
         }
 
         input {
@@ -68,14 +75,9 @@
             color: #029Bcf;
         }
 
-        ::placeholder {
-            color: #029Bcf;
-        }
 
-        #tablaPeliculas {
-            height: 650px;
-            overflow: auto;
-        }
+
+
 
         table {
             width: 100%;
@@ -101,12 +103,16 @@
 
         tr:hover td {
             background-color: #f6f9fc;
-            color: #029Bcf;
+            color: #2cd393;
             cursor: pointer;
         }
 
         /* Estilos para la ventana emergente */
         #infoVentana {
+            font-family: "Poppins", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
             display: none;
             /* Oculta la ventana emergente por defecto */
             position: fixed;
@@ -124,12 +130,43 @@
 
         #infoVentana .contenido {
             background-color: #fff;
-            color: #000;
+            color: #333;
             padding: 20px;
             border-radius: 10px;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 20px auto;
             position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+            max-width: 600px;
+
+        }
+
+        .contenido h2 {
+            font-size: 20px;
+            margin-bottom: 6px;
+            color: #4e4444;
+        }
+
+        .contenido p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+
+        .contenido p strong {
+            color: #4e4444;
+        }
+
+        .contenido a {
+            color: #029Bcf;
+            text-decoration: none;
+        }
+
+
+        #infoVentana img {
+            margin: 0 auto;
+            border-radius: 15px;
+            border: 1px solid #000;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 1);
         }
 
         #infoVentana .cerrar {
@@ -137,18 +174,22 @@
             top: 10px;
             right: 10px;
             background-color: #ff0000;
-            /* Rojo para el botón de cierre */
             color: #fff;
             border: none;
-            border-radius: 5px;
-            padding: 10px;
+            border-radius: 10px;
+            height: 40px;
+            width: 40px;
+            padding: 0;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #infoVentana .cerrar:hover {
-            background-color: #cc0000;
-            /* Rojo oscuro al pasar el ratón */
+            background-color: #d82c2c;
+
         }
 
         #infoVentana h2 {
@@ -156,8 +197,11 @@
         }
 
         .fila-seleccionada {
-            background-color: #ffff99;
-            /* Color de fondo amarillo claro para la fila seleccionada */
+            background-color: #58f1b7;
+        }
+
+        ::placeholder {
+            color: #029Bcf;
         }
     </style>
 </head>
@@ -207,8 +251,9 @@
             <p><strong>Taquilla:</strong> <span id="infoTaquilla"></span></p>
             <p><strong>Producción:</strong> <span id="infoProduccion"></span></p>
             <p><strong>Website:</strong> <a id="infoWebsite" href="#" target="_blank"></a></p>
-            <img id="infoPoster" src="" alt="Póster" style="max-width: 100%;">
             <p><strong>Tráiler:</strong> <a id="infoTrailer" href="#" target="_blank">Ver tráiler</a></p>
+            <img id="infoPoster" src="" alt="Póster" style="max-width: 100%;">
+
         </div>
     </div>
 
