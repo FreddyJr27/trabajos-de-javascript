@@ -6,40 +6,34 @@ class Llamada {
     }
 
     getRandomId() {
-        if (this.usedIds.size >= this.maxIds) {
-            console.log('Todos los IDs están en uso.');
-            return null; // No se puede obtener un nuevo ID si todos están en uso
-        }
+        const generateId = () => {
+            const numero_r = Math.floor(Math.random() * this.maxIds) + 1;
+            return this.usedIds.has(numero_r) ? generateId() : numero_r;
+        };
 
-        let numero_r;
-
-        // Generar un número aleatorio que no esté en usedIds
-        do {
-            numero_r = Math.floor(Math.random() * this.maxIds) + 1;
-        } while (this.usedIds.has(numero_r));
-
-        this.usedIds.add(numero_r);
-        return numero_r;
+        return this.usedIds.size >= this.maxIds
+            ? (console.log('Todos los IDs están en uso.'), null)
+            : (() => {
+                const numero_r = generateId();
+                this.usedIds.add(numero_r);
+                return numero_r;
+            })();
     }
 
     ruta() {
         const numero_r = this.getRandomId();
-        if (numero_r === null) {
-            console.log('No se pueden generar más IDs. Todos los IDs están en uso.');
-            clearInterval(this.intervalId); // Detener el intervalo
-            return; // Salir si no se puede obtener un nuevo ID
-        }
-
-        return fetch('https://freetestapi.com/api/v1/movies/' + numero_r)
-            .then(response => response.json())
-            .then(data => {
-                this.agregarFila(data);
-                return data; // Devolver los datos
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                return null; // Devolver null en caso de error
-            });
+        return numero_r === null
+            ? (console.log('No se pueden generar más IDs. Todos los IDs están en uso.'), clearInterval(this.intervalId), undefined)
+            : fetch('https://freetestapi.com/api/v1/movies/' + numero_r)
+                .then(response => response.json())
+                .then(data => {
+                    this.agregarFila(data);
+                    return data; // Devolver los datos
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    return null; // Devolver null en caso de error
+                });
     }
 
     agregarFila(data) {
@@ -62,11 +56,11 @@ class Llamada {
         ojoIcon.className = 'fa-solid fa-eye';
         ojoIcon.style.cursor = 'pointer'; // Cambia el cursor para indicar que es clickeable
         ojoIcon.style.marginRight = '10px'; // Añadir margen a la derecha para separar los iconos
-
+        ojoIcon.style.color = '#87CEEB';
         const xIcon = document.createElement('i');
         xIcon.className = 'fa-solid fa-trash';
         xIcon.style.cursor = 'pointer'; // Cambia el cursor para indicar que es clickeable
-
+        xIcon.style.color = 'red';
         // Añadir los íconos a la celda
         celdaIconos.appendChild(ojoIcon);
         celdaIconos.appendChild(xIcon);
@@ -83,8 +77,10 @@ class Llamada {
             // Obtener el id de la fila y eliminar el id de usedIds
             const idFila = parseInt(celdaId.textContent, 10);
             this.usedIds.delete(idFila);
-            // Eliminar la fila
+
             tabla.removeChild(nuevaFila);
+            this.usedIds.size < this.maxIds ? retomarLlamadas() : null;
+
         });
 
         // Ordenar la tabla después de añadir la fila
@@ -109,14 +105,10 @@ class Llamada {
         document.getElementById('infoProduccion').textContent = data.production;
         document.getElementById('infoWebsite').href = data.website;
         document.getElementById('infoWebsite').textContent = data.website;
-
-        // Verificar si el póster está disponible
-        if (data.poster) {
-            document.getElementById('infoPoster').src = data.poster;
-            document.getElementById('infoPoster').style.display = 'block'; // Mostrar la imagen si está disponible
-        } else {
-            document.getElementById('infoPoster').style.display = 'none'; // Ocultar la imagen si no está disponible
-        }
+        document.getElementById('infoPoster').src = data.poster;
+        document.getElementById('infoPoster').style.display = 'flex';
+        document.getElementById('infoPoster').style.justifyContent = 'center';
+        document.getElementById('infoPoster').style.alignItems = 'center';
 
         document.getElementById('infoTrailer').href = data.trailer;
 
@@ -136,12 +128,9 @@ class Llamada {
 
         const filaEncontrada = filas.find(fila => fila.cells[1].textContent.toLowerCase() === titulo.toLowerCase());
 
-        if (filaEncontrada) {
-            filaEncontrada.classList.add('fila-seleccionada');
-            filaEncontrada.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-            alert('No se encontró ninguna película con ese título.');
-        }
+        filaEncontrada
+            ? (filaEncontrada.classList.add('fila-seleccionada'), filaEncontrada.scrollIntoView({ behavior: 'smooth', block: 'center' }))
+            : alert('No se encontró ninguna película con ese título.');
     }
 
     ordenarTabla() {
@@ -171,16 +160,14 @@ document.querySelector('#infoVentana .cerrar').addEventListener('click', () => {
 
 document.getElementById('buscarBtn').addEventListener('click', () => {
     const tituloBuscado = document.getElementById('buscador').value.trim();
-    if (tituloBuscado) {
-        miLlamada.buscarPelicula(tituloBuscado);
-    } else {
-        alert('Por favor, ingresa un título para buscar.');
-    }
+    tituloBuscado ? miLlamada.buscarPelicula(tituloBuscado) : alert('Por favor, ingresa un título para buscar.');
 });
 
 function llamarCada5Segundos() {
     miLlamada.ruta();
 }
 
-// Guardar el ID del intervalo para poder detenerlo más tarde
-miLlamada.intervalId = setInterval(llamarCada5Segundos, 5000);
+function retomarLlamadas() {
+    miLlamada.intervalId = setInterval(llamarCada5Segundos, 5000);
+}
+retomarLlamadas();
