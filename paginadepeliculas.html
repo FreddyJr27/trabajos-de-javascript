@@ -53,8 +53,6 @@
             color: white;
         }
 
-
-
         #buscarBtn {
             padding: 10px 20px;
             background-color: #029Bcf;
@@ -74,10 +72,6 @@
             border: 1px solid #029Bcf;
             color: #029Bcf;
         }
-
-
-
-
 
         table {
             width: 100%;
@@ -161,7 +155,6 @@
             text-decoration: none;
         }
 
-
         #infoVentana img {
             margin: 0 auto;
             border-radius: 15px;
@@ -202,6 +195,81 @@
 
         ::placeholder {
             color: #029Bcf;
+        }
+
+        @media (max-width: 1200px) {
+            table {
+                min-width: 800px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .tabla_header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            input {
+                margin: 10px 0;
+            }
+
+            table {
+                min-width: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tabla_header {
+                padding: 10px;
+            }
+
+            button {
+                padding: 20px;
+            }
+
+            #buscarBtn {
+                padding: 8px 16px;
+            }
+
+            input {
+                padding: 8px 16px;
+            }
+
+            table {
+                min-width: 100%;
+            }
+
+            thead th,
+            th,
+            td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .tabla_header {
+                padding: 5px;
+            }
+
+            button {
+                padding: 10px;
+            }
+
+            #buscarBtn {
+                padding: 6px 12px;
+            }
+
+            input {
+                padding: 6px 12px;
+            }
+
+            thead th,
+            th,
+            td {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -253,8 +321,8 @@
             <p><strong>Website:</strong> <a id="infoWebsite" href="#" target="_blank"></a></p>
             <p><strong>Tráiler:</strong> <a id="infoTrailer" href="#" target="_blank">Ver tráiler</a></p>
             <img id="infoPoster" src="" alt="Póster" style="max-width: 100%;">
-
         </div>
+
     </div>
 
     <script src="peliculas.js"></script>
