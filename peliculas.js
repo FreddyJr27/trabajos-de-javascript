@@ -6,6 +6,7 @@ class Llamada {
         this.intervalId = null;
         this.listadata = []
         this.chartInstance = null;
+        this.reanudarLlamadas = false;
     }
     getRandomId() {
         const generateId = () => {
@@ -127,14 +128,19 @@ class Llamada {
             this.filtropremios(this.listadata);
 
             tabla.removeChild(nuevaFila);
-            this.usedIds.size < this.maxIds ? retomarLlamadas() : null;
+            if (!this.llamadasReanudadas && this.usedIds.size == this.maxIds) {
+                this.llamadasReanudadas = true; // Marca que las llamadas han sido reanudadas
+                retomarLlamadas();
+            }
+            clearInterval(this.intervalId);
+            retomarLlamadas();
         });
 
         this.ordenarTabla();
 
 
         // Ordenar la tabla después de añadir la fila
-        this.ordenarTabla();
+        
 
     }
 
@@ -220,7 +226,7 @@ function llamarCada5Segundos() {
 }
 
 function retomarLlamadas() {
-
+   
     miLlamada.intervalId = setInterval(llamarCada5Segundos, 5000);
 }
 retomarLlamadas();
