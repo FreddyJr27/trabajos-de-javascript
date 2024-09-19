@@ -1,10 +1,12 @@
+
 class Llamada {
     constructor() {
         this.usedIds = new Set();
         this.maxIds = 20; // Número máximo de IDs posibles
-        this.intervalId = null; // Guardar el ID del intervalo
+        this.intervalId = null;
+        this.listadata = []
+        this.chartInstance = null;
     }
-
     getRandomId() {
         const generateId = () => {
             const numero_r = Math.floor(Math.random() * this.maxIds) + 1;
@@ -27,8 +29,11 @@ class Llamada {
             : fetch('https://freetestapi.com/api/v1/movies/' + numero_r)
                 .then(response => response.json())
                 .then(data => {
+                    this.listadata.push(data);
                     this.agregarFila(data);
-                    return data; // Devolver los datos
+                    this.filtropremios(this.listadata);
+                    console.log(this.listadata);
+                    return { data, listadata: this.listadata }; // Devolver los datos
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -36,7 +41,56 @@ class Llamada {
                 });
     }
 
+    filtropremios(listadata) {
+        let totalnominacion = 0;
+        let totalpremios = 0;
+
+        listadata.forEach(movie => {
+            const awards = movie.awards;
+            if (awards.includes('Nominated')) {
+                let nominationsMatch = awards.match(/Nominated for (\d+)/);
+                if (nominationsMatch) {
+                    totalnominacion += parseInt(nominationsMatch[1]);
+                }
+            }
+            if (awards.includes('Won')) {
+                let winsMatch = awards.match(/Won (\d+)/);
+                if (winsMatch) {
+                    totalpremios += parseInt(winsMatch[1]);
+                }
+            }
+        });
+       
+        if (this.chartInstance) {
+            this.chartInstance.data.datasets[0].data = [totalnominacion, totalpremios];
+            this.chartInstance.update();
+        } else {
+            const gra = document.getElementById('grafico').getContext('2d');
+            this.chartInstance = new Chart(gra, {
+                type: 'bar',
+                data: {
+                    labels: ['Nominaciones', 'Premios'],
+                    datasets: [{
+                        label: 'Premios y Nominaciones',
+                        data: [totalnominacion, totalpremios],
+                        borderWidth: 1,
+                        backgroundColor: ['rgba(126, 0, 183, 0.5)', 'rgba(169, 0, 169, 0.5)'],
+                        borderColor: ['rgba(74, 0, 187, 1)', 'rgba(187, 0, 187, 1)'],
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+        }
+    }
     agregarFila(data) {
+
         const tabla = document.getElementById('tablaPeliculas').getElementsByTagName('tbody')[0];
         const nuevaFila = tabla.insertRow();
 
@@ -85,6 +139,7 @@ class Llamada {
 
         // Ordenar la tabla después de añadir la fila
         this.ordenarTabla();
+
     }
 
     mostrarInformacion(data) {
@@ -152,6 +207,7 @@ class Llamada {
 }
 
 const miLlamada = new Llamada();
+
 
 // Manejador para cerrar la ventana emergente
 document.querySelector('#infoVentana .cerrar').addEventListener('click', () => {
