@@ -128,10 +128,8 @@ class Llamada {
             this.filtropremios(this.listadata);
 
             tabla.removeChild(nuevaFila);
-            if (!this.llamadasReanudadas && this.usedIds.size == this.maxIds) {
-                this.llamadasReanudadas = true; // Marca que las llamadas han sido reanudadas
-                retomarLlamadas();
-            }
+            
+            
             clearInterval(this.intervalId);
             retomarLlamadas();
         });
