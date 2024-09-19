@@ -74,6 +74,7 @@ class Llamada {
                     }]
                 },
                 options: {
+
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
@@ -96,6 +97,7 @@ class Llamada {
         celdaId.textContent = data.id;
         celdaTitulo.textContent = data.title;
         celdaPremio.textContent = data.awards;
+        
 
         const celdaIconos = nuevaFila.insertCell(3);
         const ojoIcon = document.createElement('i');
@@ -128,8 +130,8 @@ class Llamada {
             this.filtropremios(this.listadata);
 
             tabla.removeChild(nuevaFila);
-            
-            
+
+
             clearInterval(this.intervalId);
             retomarLlamadas();
         });
@@ -138,10 +140,10 @@ class Llamada {
 
 
         // Ordenar la tabla después de añadir la fila
-        
+
 
     }
-
+   
     mostrarInformacion(data) {
         console.log(data);
         const infoVentana = document.getElementById('infoVentana');
@@ -224,7 +226,7 @@ function llamarCada5Segundos() {
 }
 
 function retomarLlamadas() {
-   
+
     miLlamada.intervalId = setInterval(llamarCada5Segundos, 5000);
 }
 retomarLlamadas();
