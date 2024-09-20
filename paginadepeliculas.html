@@ -27,7 +27,7 @@
             font-optical-sizing: auto;
             font-weight: 790;
             font-style: normal;
-
+            background-color: rgb(240, 240, 240);
 
 
         }
@@ -38,6 +38,8 @@
             border: none;
             border-collapse: collapse;
             margin: 20px auto;
+            background-color: rgb(240, 240, 240);
+            border-radius: 2%;
         }
 
         .tabla {
@@ -49,7 +51,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            background-color: rgb(240, 240, 240);
+            background-color: rgb(167, 167, 167);
         }
 
         button {
@@ -90,9 +92,10 @@
         thead th {
             position: sticky;
             top: 0%;
-            background-color: #f6f9fc;
-            color: #8493a5;
+            background-color: rgb(167, 167, 167);
+            color: #000000;
             font-size: 15px;
+            
         }
 
         th,
@@ -353,16 +356,21 @@
             <p><strong>Tráiler:</strong> <a id="infoTrailer" href="#" target="_blank">Ver tráiler</a></p>
             <img id="infoPoster" src="" alt="Póster" style="max-width: 100%;">
         </div>
-
+        
     </div>
+<br>
+    <div class="grafico" style="width: 70%; height: 90%; margin: 0 auto;">
+        <canvas id="grafico" >
 
-    <div class="grafico" style="width: 70vw; height: 110vw; margin: 0 auto;">
-
-        <canvas id="grafico">
+<div class="grafico" style="width: 50%; height: 60%; margin: 0 auto;">
+        <canvas id="grafico" style="">
 
 
         </canvas>
     </div>
+        </canvas>
+    </div>
+    
     <script src="peliculas.js"></script>
 </body>
 
